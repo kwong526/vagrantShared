@@ -4,17 +4,10 @@
 if [[ ! -d ~/Documents/contact ]]; then
   # Create the directory/file if it does not exist
   mkdir ~/Documents/contact && touch ~/Documents/contact/list
-fi
-
-# if the user did not enter an option
-if [[ $OPTIND -eq 2 ]]; then
-  echo "[-a] Add a new contact."
-  echo "[-r] Remove an existing contact."
-  echo "[-d] Display contact information."
 else
   # if the user did enter an option
   while getopts ":ards" flag; do
-    case ${flag} in
+   case ${flag} in
       a ) # the user chose to add a new contact
         read -ep "Enter your name: " name
         read -ep "Enter your phone number: " phoneNum
@@ -43,4 +36,10 @@ else
     esac
     exit 0
   done
+
+  if [[ $OPTIND -eq 1 ]]; then
+    echo "[-a] Add a new contact."
+    echo "[-r] Remove a contact."
+    echo "[-d] Display contact information."
+  fi
 fi
