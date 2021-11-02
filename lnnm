@@ -1,0 +1,13 @@
+#!/bin/bash
+# initialize counter
+count=1
+fName="$1"
+
+# while loop to loop through all lines in the file
+while read input;do
+  echo $count\. $input
+  ((count++))
+
+done < $fName
+
+
