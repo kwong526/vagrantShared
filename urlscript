@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# optional flag
+weburl="$1"
+
+shift
+
+while getopts ":f" flag; do
+  case ${flag} in
+    f ) 
+      # retrieve the content from a webpage and store it into a file 'urldisplay'
+      wget -O urldisplay $weburl
+      # filter and search for only links that start with http or https
+      cat urldisplay | grep -Eoi "(http|https)://[a-zA-Z0-9./]*" > webdisplay
+      cat webdisplay
+      exit 0 ;;
+    \? ) echo "No such option: $OPTARG use [-f] instead"
+      exit 1 ;;
+  esac
+done
+
+if [[ $OPTIND -eq 1 ]]; then
+  wget -O urldisplay $weburl
+  cat urldisplay | grep -Eoi "(http|https)://[a-zA-Z0-9./]*"
+fi
