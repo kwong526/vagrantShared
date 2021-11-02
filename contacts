@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# determine if there exists a contact directory
+if [[ ! -d ~/Documents/contact ]]; then
+  # Create the directory/file if it does not exist
+  mkdir ~/Documents/contact && touch ~/Documents/contact/list
+fi
+
+# if the user did not enter an option
+if [[ $OPTIND -eq 2 ]]; then
+  echo "[-a] Add a new contact."
+  echo "[-r] Remove an existing contact."
+  echo "[-d] Display contact information."
+else
+  # if the user did enter an option
+  while getopts ":ards" flag; do
+    case ${flag} in
+      a ) # the user chose to add a new contact
+        read -ep "Enter your name: " name
+        read -ep "Enter your phone number: " phoneNum
+        read -ep "Enter your email address: " email
+        read -ep "Enter your address: " address
+        # save the contact information to the file
+        echo $name:$phoneNum:$email:$address >> ~/Documents/contact/list
+        # display confirmation that the contact was saved
+        echo "Contact saved." 
+        ;;
+      r ) # the user chose to remove a contact
+        read -ep "Enter a contact's name to remove: " name
+        # find and delete, in place, any lines with the contact's name
+        gawk -i inplace "!/$name/" ~/Documents/contact/list
+        echo "$name deleted"
+        ;;
+      d ) # display the list of contactsi
+        awk 'BEGIN { FS=":"; print "Name    \t\tPhone Number\t\tEmail\t\t         Address\n-------------------------------------------------------------------------"; }
+        {print $1,"\t\t",$2,"\t\t",$3,"\t\t",$4;}
+        END { print "----------\nFile Complete" }' ~/Documents/contact/list
+        ;;
+      \? ) # default case if no valid options given
+        echo "No such option: $OPTARG."
+        exit 1
+        ;;
+    esac
+    exit 0
+  done
+fi
