@@ -6,7 +6,7 @@ if [[ ! -d ~/Documents/contact ]]; then
   mkdir ~/Documents/contact && touch ~/Documents/contact/list
 else
   # if the user did enter an option
-  while getopts ":ards" flag; do
+  while getopts ":ardh" flag; do
    case ${flag} in
       a ) # the user chose to add a new contact
         read -ep "Enter your name: " name
@@ -24,10 +24,8 @@ else
         gawk -i inplace "!/$name/" ~/Documents/contact/list
         echo "$name deleted"
         ;;
-      d ) # display the list of contactsi
-        awk 'BEGIN { FS=":"; print "Name    \t\tPhone Number\t\tEmail\t\t         Address\n-------------------------------------------------------------------------"; }
-        {print $1,"\t\t",$2,"\t\t",$3,"\t\t",$4;}
-        END { print "----------\nFile Complete" }' ~/Documents/contact/list
+      d ) # display the list of contacts
+        awk 'BEGIN {printf "%10s %12s %20s %30s" "Name" "Phone Number" "Email" "Address";} {FS=":"; printf "%10s %12s %20s %30s" $1 $2 $3 $4;}' ~/Documents/contact/list
         ;;
       \? ) # default case if no valid options given
         echo "No such option: $OPTARG."
