@@ -25,7 +25,13 @@ else
         echo "$name deleted"
         ;;
       d ) # display the list of contacts
-        awk 'BEGIN {printf "%10s %12s %20s %30s" "Name" "Phone Number" "Email" "Address";} {FS=":"; printf "%10s %12s %20s %30s" $1 $2 $3 $4;}' ~/Documents/contact/list
+        awk 'BEGIN {FS=":"; printf ("%-10s %-15s %-20s %s\n","Name","Phone Number","Email","Address") } {printf ("%-10s %-15s %-20s %s\n",$1,$2,$3,$4)}' ~/Documents/contact/list
+        #awk 'BEGIN {printf "%10s %12s %20s %30s" "Name" "Phone Number" "Email" "Address";} {FS=":"; printf "%10s %12s %20s %30s" $1 $2 $3 $4;}' ~/Documents/contact/list
+        ;;
+      h )
+        echo "[-a] Add a new contact."
+        echo "[-r] Remove a contact."
+        echo "[-d] Display contact information."
         ;;
       \? ) # default case if no valid options given
         echo "No such option: $OPTARG."
@@ -36,8 +42,6 @@ else
   done
 
   if [[ $OPTIND -eq 1 ]]; then
-    echo "[-a] Add a new contact."
-    echo "[-r] Remove a contact."
-    echo "[-d] Display contact information."
+    echo "Please provide an option. [-h] for help."
   fi
 fi
