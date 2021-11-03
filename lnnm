@@ -1,13 +1,26 @@
 #!/bin/bash
 # initialize counter
 count=1
-fName="$1"
 
+while getopts ":hn:" flag; do
+  case ${flag} in
+    n) 
+      file=$OPTARG
+      while read input; do
+        echo $count\. $input
+        ((count++))
+      done < $file
+      ;;
+    \?) 
+      echo "Invalid option: $OPTARG"
+      ;;
+    :) 
+      echo "Invalid option: $OPTARG requires an argument"
+      ;;
+    h)
+      echo "[-n] [filename] display the contents of the file with numbered lines, requires a filename to be passed as an argument."
+  esac
+done
+shift $((OPTIND -1))
 # while loop to loop through all lines in the file
-while read input;do
-  echo $count\. $input
-  ((count++))
-
-done < $fName
-
 
