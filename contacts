@@ -43,5 +43,6 @@ else
 
   if [[ $OPTIND -eq 1 ]]; then
     echo "Please provide an option. [-h] for help."
+    exit 0
   fi
 fi

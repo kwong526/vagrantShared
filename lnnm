@@ -2,9 +2,11 @@
 # initialize counter
 count=1
 
+# while loop to loop through all the flags
 while getopts ":hn:" flag; do
   case ${flag} in
     n) 
+      # take the file provided as an argument
       file=$OPTARG
       while read input; do
         echo $count\. $input
@@ -13,14 +15,18 @@ while getopts ":hn:" flag; do
       ;;
     \?) 
       echo "Invalid option: $OPTARG"
+      exit 1
       ;;
     :) 
+      # if the 'n' flag is used but no argument is provided
       echo "Invalid option: $OPTARG requires an argument"
+      exit 1
       ;;
     h)
+      # helper function to provide the user with help on how to use the script
       echo "[-n] [filename] display the contents of the file with numbered lines, requires a filename to be passed as an argument."
+      ;;
   esac
 done
 shift $((OPTIND -1))
-# while loop to loop through all lines in the file
-
+exit 0
