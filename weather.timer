@@ -1,0 +1,10 @@
+[Unit]
+Description=Run weather.service daily
+
+[Timer]
+# OnUnitActiveSec=1min
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

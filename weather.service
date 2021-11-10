@@ -1,0 +1,8 @@
+[Unit]
+Description=Weather information obtained from https://wttr.in/
+
+[Service]
+ExecStart=/home/vagrant/Documents/week10/wttr
+
+[Install]
+WantedBy=multi-user.target
